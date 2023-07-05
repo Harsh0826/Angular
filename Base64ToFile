@@ -1,0 +1,18 @@
+base64ToFile(base64ImageData: any) {
+    const signImageName = `${this.signature}_signature.png`;
+
+    const parts = base64ImageData.split(';base64,');
+    const mimeType = parts[0].split(':')[1];
+    const data = parts[1];
+
+    const byteCharacters = atob(data);
+    const byteArrays: any = [];
+
+    for (let i: any = 0; i < byteCharacters.length; i++) {
+      byteArrays.push(byteCharacters.charCodeAt(i));
+    }
+
+    const byteArray = new Uint8Array(byteArrays);
+    const blob = new Blob([byteArray], { type: mimeType });
+    this.signImage = new File([blob], signImageName, { type: mimeType });
+  }
